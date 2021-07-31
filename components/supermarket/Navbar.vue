@@ -16,9 +16,9 @@
                                 </nuxt-link>
                             </li>
                             <li class="nav-item">
-                                <a href="https://pos.itourstory.com/supermarket/product" class="nav-link  py-1 px-3">
+                                <nuxt-link to="/supermarket/control" :class="{ 'active' : $nuxt.$route.path === '/supermarket/control'}" class="nav-link py-1 px-3">
                                     <i class="fas fa-list-ul"></i>
-                                </a>
+                                </nuxt-link>
                             </li>
                             <li class="nav-item">
                                 <a href="https://pos.itourstory.com/supermarket/analysis" class="nav-link  py-1 px-3">

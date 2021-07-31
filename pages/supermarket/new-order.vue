@@ -160,7 +160,14 @@ export default {
     },
     filterCategories: function (id){
       var localProducts = this.$auth.$storage.getLocalStorage("products")
-      this.products = (id == 0 ? localProducts : localProducts.filter((x) => x.category_id == id))
+      var localCateogries = this.$auth.$storage.getLocalStorage("categories")
+      if (id == 0){
+        this.products = localProducts
+        this.categories = localCateogries
+      } else {
+        this.products = localProducts.filter((x) => x.category_id == id)
+        this.categories = localCateogries.filter(x => (x.id == id || x.id == 0))
+      }
     },
     endOrder: function () {
       var products = this.productsAdded.map(function (x) {

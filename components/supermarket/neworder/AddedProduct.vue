@@ -14,7 +14,7 @@
         </div>
         <div class="col-md d-none d-md-block">
             <span class="mb-0">الإجمالي</span> 
-            <p class="card-text fs-6"><b>{{ $n(price, 'currency') }} د.ع</b></p>
+            <p class="card-text fs-6"><b>{{ $n(price, 'currency') }}</b></p>
         </div>
         <div class="col-auto">
             <div @click="updateCount(count-1)" class="action-item text-danger">
