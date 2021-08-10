@@ -1,5 +1,5 @@
 <template>
-    <div class="card py-2 r-2 border-0 t-3 position-relative product" @click="productAdd(id)">
+    <div class="card py-2 r-2 border-0 t-3 position-relative product" @click="addProduct(product.id)">
         <span class="position-absolute badge badge-light border-white text-dark count" v-if="inCount > 0">
             {{ inCount }}
         </span>
@@ -8,12 +8,12 @@
         </span>  -->
         <div class="card-body pb-2 text-center">
             <div class="row"><span class="h5 text-light mb-1">
-                {{ name }}
+                {{ product.name }}
                 </span>
             </div>
             <div class="row">
                 <span class="text-light text-left">
-                    {{ $n(price, 'currency') }} د.ع                                       
+                    {{ $n(product.price, 'currency') }} د.ع                                       
                 </span>
             </div>
         </div>
@@ -21,24 +21,43 @@
 </template>
 
 <script>
+    import { mapMutations, mapGetters, mapActions } from 'vuex'
+
     export default {
         props: [
-            'count', 'name', 'price', 'id'
+            'product'
         ],
-        data(){
-            return {
+        data() {
+            return{
                 inCount: 0
             }
         },
-        methods: {
-            productAdd: function(id) {
-                this.$emit('product-add', id)
-                this.inCount++
+        mounted(){
+            this.inCountCheck()
+        },
+        computed: {
+            productsAdded () {
+                return this.$store.state.supermarket.orders.products;
             },
-            resetCount: function(){
-                this.inCount = 0
+        },
+        methods: {
+            ...mapActions({addProduct: 'supermarket/orders/addProduct'}),
+            inCountCheck(){
+                let productAdded = this.productsAdded.find(x => x.id == this.product.id)
+                if (productAdded !== undefined){
+                    this.inCount = productAdded.inCount
+                } else this.inCount = 0
             }
-        }
+        },
+        watch: {
+            productsAdded: {
+                deep: true,
+                handler(newVal) {
+                    this.inCountCheck()
+                }
+            }
+        },
+        
     }
 </script>
 

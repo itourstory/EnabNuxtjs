@@ -1,6 +1,8 @@
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
+  ssr: true, // will be a spa if set to false
+
   // trailingSlash: true,
 
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -8,9 +10,11 @@ export default {
     title: 'Enab',
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0' },
       { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      { name: 'format-detection', content: 'telephone=no' },
+      { "http-equiv":"cache-control", content:"public/private"}
+
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
@@ -30,6 +34,8 @@ export default {
   plugins: [
     {src: '~/plugins/custom-functions.js', mode: 'client'},
     {src: '~/plugins/vuejs-dialog', mode: 'client'},
+    {src: '~/plugins/vuejs-select.js', mode: 'client'},
+    
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -47,13 +53,22 @@ export default {
     '@nuxtjs/axios',
     // Auth
     '@nuxtjs/auth-next',
-    // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa',
     // style resource
     '@nuxtjs/style-resources',
+    
+    'nuxt-i18n',
 
-    'nuxt-i18n'
+    '@nuxtjs/toast',
+
+    // https://go.nuxtjs.dev/pwa
+    '@nuxtjs/pwa',
+
   ],
+
+  toast: {
+    position: 'top-left',
+    duration : 2500
+  },
 
   i18n: {
     locales: ['ar'],
@@ -98,11 +113,14 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
+    // baseURL: 'https://pos.itourstory.com',
+    baseURL: 'http://localhost:8000',
     withCredentials: true,
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
+    icon: false,
     meta: {
       name: "عنب",
       author: 'Ourstory'
@@ -110,8 +128,19 @@ export default {
     manifest: {
       name: 'Enab',
       short_name: 'Enab',
-      lang: 'en'
-    }
+      lang: 'ar',
+      // start_url: "/",
+      // display: 'standalone',
+    },
+    // workbox: {
+    //   cachingExtensions: '@/plugins/workbox-sync.js',
+    //   enabled: true,
+    //   clientsClaim: true,
+    //   // runtimeCaching: [
+    //   //   { urlPattern: '/*' },
+    //   // ],
+    //   LOG_LEVEL: 'debug'
+    // },
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

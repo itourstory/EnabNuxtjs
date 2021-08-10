@@ -12,7 +12,7 @@
 
     <div class="row mx-lg-n1 d-flex justify-content-center mt-5">
         <div class="col-md-4 px-lg-4">
-          <Services link="/supermarket" title='سوبرماركت' sub_title="إدارة السوبر ماركت" :new_service=true />
+          <Businesses link="/supermarket" title='سوبرماركت' sub_title="إدارة السوبر ماركت" :new_service=true />
         </div>
     </div>
 

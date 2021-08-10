@@ -21,6 +21,11 @@
                                 </nuxt-link>
                             </li>
                             <li class="nav-item">
+                                <nuxt-link to="/supermarket/analytics" :class="{ 'active' : $nuxt.$route.path === '/supermarket/analytics'}" class="nav-link py-1 px-3">
+                                    <i class="fas fa-chart-pie"></i>
+                                </nuxt-link>
+                            </li>
+                            <!-- <li class="nav-item">
                                 <a href="https://pos.itourstory.com/supermarket/analysis" class="nav-link  py-1 px-3">
                                     <i class="fas fa-chart-pie"></i>
                                 </a>
@@ -29,7 +34,7 @@
                                 <a href="https://pos.itourstory.com/supermarket/setting" class="nav-link  py-1 px-3">
                                     <i class="fas fa-cog"></i>
                                 </a>
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
                     <div class="col-6">
@@ -39,9 +44,19 @@
                                     <small></small>
                                 </div> -->
                                 <div class="mr-3">
-                                    <small>{{ datetime }}</small>
+                                    <ServicesEarthlinkUsers id="1" />
+                                </div>
+                                <div class="mr-3">
+                                    <div v-if="$nuxt.isOnline" class="badge badge-success">متصل</div>
+                                    <div v-else class="badge badge-danger">غير متصل</div>
+                                    <div class="badge t-1">{{ datetime }}</div>
                                 </div>
                                 <ul class="nav nav-pills">
+                                    <li class="nav-item">
+                                        <a href="#" @click="sync" class="nav-link py-1">
+                                            <i class="fas fa-sync"></i>
+                                        </a>
+                                    </li>
                                     <li class="nav-item">
                                         <a href="#" @click="logout" class="nav-link active py-1">
                                             <i class="fas fa-sign-out-alt signout-icon"></i>
@@ -77,6 +92,19 @@
             },
             async logout() {
                 await this.$auth.logout();
+            },
+            async sync(){
+                // await this.$dialog.confirm('هل انت متأكد تريد إعادة البيانات؟').then(() => {
+                //     // Sycning products & categories
+                //     this.$axios
+                //     .get('/api/supermarket/productsCategories', { withCredentials: true })
+                //     .then((response) => {
+                //         response.data.categories.unshift({id: 0, name: "جميع الفئات"})
+                //         this.$auth.$storage.setLocalStorage('products', response.data.products)
+                //         this.$auth.$storage.setLocalStorage('categories', response.data.categories)
+                //     })
+                // })
+                // this.$dialog.alert("تمت المزامنة بنجاح!")
             }
         }
     }

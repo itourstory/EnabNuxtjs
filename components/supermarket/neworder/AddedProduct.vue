@@ -1,24 +1,24 @@
 <template>
     <div class="row align-items-center">
         <div class="col-auto">
-            <div @click="updateCount(count+1)" class="action-item">
+            <div @click="addProduct(product.id)" class="action-item">
                 <i class="fas fa-2x fa-plus"></i>
             </div>
         </div>
         <div class="col-6">
-            <p class="card-text fs-6">{{ name }} </p>
+            <p class="card-text fs-6">{{ product.name }} </p>
         </div>
         <div class="col">
             <span class="mb-0">العدد</span>
-            <p class="card-text fs-6"><b>{{ count }}</b></p>
+            <p class="card-text fs-6"><b>{{ product.inCount }}</b></p>
         </div>
         <div class="col-md d-none d-md-block">
             <span class="mb-0">الإجمالي</span> 
-            <p class="card-text fs-6"><b>{{ $n(price, 'currency') }}</b></p>
+            <p class="card-text fs-6"><b>{{ $n(product.price, 'currency') }}</b></p>
         </div>
         <div class="col-auto">
-            <div @click="updateCount(count-1)" class="action-item text-danger">
-                <i v-if="count > 1" class="fas fa-2x fa-minus"></i>
+            <div @click="removeProduct(product.id)" class="action-item text-danger">
+                <i v-if="product.count > 1" class="fas fa-2x fa-minus"></i>
                 <i v-else class="fas fa-2x fa-trash"></i>
             </div>
         </div>
@@ -26,9 +26,11 @@
 </template>
 
 <script>
+    import { mapMutations, mapGetters, mapActions } from 'vuex'
+
     export default {
         props: [
-            'count', 'name', 'price', 'id'
+            'product'
         ],
         data(){
             return {
@@ -36,9 +38,10 @@
             }
         },
         methods: {
-            updateCount: function (count){
-                this.$emit('update-count', count)
-            }
+            ...mapActions({
+                addProduct: 'supermarket/orders/addProduct',
+                removeProduct: 'supermarket/orders/removeProduct'
+            }),
         },
     }
 </script>

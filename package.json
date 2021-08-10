@@ -12,11 +12,13 @@
     "@fortawesome/fontawesome-free": "^5.15.3",
     "@nuxtjs/auth-next": "5.0.0-1624817847.21691f1",
     "@nuxtjs/axios": "^5.13.6",
+    "@nuxtjs/toast": "^3.3.1",
     "bootstrap": "^5.0.2",
     "bootstrap-vue": "^2.21.2",
     "core-js": "^3.15.1",
     "nuxt": "^2.15.7",
     "nuxt-i18n": "^6.28.0",
+    "vue-select": "^3.12.2",
     "vuejs-dialog": "^1.4.2"
   },
   "devDependencies": {
