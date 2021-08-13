@@ -15,14 +15,17 @@ export default {
         }
 
         else {
-            const newId = state.products.at(-1).id + 1
-            await commit('add', {id: newId, ...product})
-            dispatch('syncLocalStorage')
-            commit('emptyProduct')
-
+            
             //########### SEND TO API ###########//.
             await this.$axios
                 .post('/api/supermarket/products/insert', product, { withCredentials: true })
+                .then((response) => {
+                    const newId = response.data.id
+                    const sendProduct = {id: newId, ...product}
+                    commit('add', sendProduct)
+                    dispatch('syncLocalStorage')
+                    commit('emptyProduct')
+                })
                 .catch((error) => {
                     console.log(error)
                 })
@@ -34,8 +37,12 @@ export default {
     async editProduct({commit, dispatch}, product){
         await commit('edit', product)
         dispatch('syncLocalStorage')
-
         //########### SEND TO API ###########//.
+        await this.$axios
+            .post('/api/supermarket/products/update', product, { withCredentials: true })
+            .catch((error) => {
+                console.log(error)
+            })
         this.$toast.success('تم التعديل')
     },
 

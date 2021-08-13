@@ -25,6 +25,11 @@
                                     <i class="fas fa-chart-pie"></i>
                                 </nuxt-link>
                             </li>
+                            <li class="nav-item">
+                                <nuxt-link to="/supermarket/services" :class="{ 'active' : $nuxt.$route.path === '/supermarket/services'}" class="nav-link py-1 px-3">
+                                    <i class="fas fa-cubes"></i>
+                                </nuxt-link>
+                            </li>
                             <!-- <li class="nav-item">
                                 <a href="https://pos.itourstory.com/supermarket/analysis" class="nav-link  py-1 px-3">
                                     <i class="fas fa-chart-pie"></i>
@@ -44,7 +49,7 @@
                                     <small></small>
                                 </div> -->
                                 <div class="mr-3">
-                                    <ServicesEarthlinkUsers id="1" />
+                                    <SupermarketServicesEarthlinkUsers service_id="2" />
                                 </div>
                                 <div class="mr-3">
                                     <div v-if="$nuxt.isOnline" class="badge badge-success">متصل</div>

@@ -1,7 +1,7 @@
 <template>
     <div class="row align-items-center">
-        <div class="col-auto">
-            <div @click="addProduct(product.id)" class="action-item">
+        <div class="col-auto action-item">
+            <div @click="addProduct(product.id)" class="text-dark">
                 <i class="fas fa-2x fa-plus"></i>
             </div>
         </div>

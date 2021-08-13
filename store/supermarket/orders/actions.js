@@ -36,7 +36,15 @@ export default {
         return products.find(x => x.id == id)
     },
 
-    async search({state}, name){
+    async search({state, commit, dispatch}, id){
+        let orders = await this.$auth.$storage.getLocalStorage('orders')
+        if (id == '')
+            commit('set_all', orders);
+        else
+            commit('set_all', orders.filter(x => x.id == id))
+    },
+
+    async searchItems({state}, name){
         if (!state.onlyProducts){
             let categories = await this.dispatch('supermarket/categories/getCategories')
             this.commit('supermarket/categories/set_all', categories.filter(x => x.name.includes(name)));
@@ -46,30 +54,22 @@ export default {
         this.commit('supermarket/products/set_all', products.filter(x => x.name.includes(name)));
     },
 
-    // async fetchOrders({commit, dispatch}) {
-    //     var orders = await this.$auth.$storage.getLocalStorage('orders')
-    //     if (orders === null) // If not set on the storage
-    //         await this.$axios
-    //             .get('/api/supermarket/categories', { withCredentials: true })
-    //             .then(async (response) => {
-    //                 // Send to Mutations
-    //                 response.data.unshift({id: 0, name: "جميع الفئات"})
-    //                 commit('set_all', response.data);
-
-    //                 // Set each category products count
-    //                 const products = await this.dispatch('supermarket/products/getProducts')
-    //                 await response.data.forEach(x => {
-    //                     commit('set_products_count', {id: x.id, count: (products.filter(y => y.category_id == x.id)).length})
-    //                 })
-
-    //                 //Save To Storage
-    //                 this.$auth.$storage.setLocalStorage('categories', response.data)
-    //             }).catch(error => {
-    //                 throw new Error(`${error}`);
-    //             })
-    //     else
-    //         commit('set_all', categories); // Send to Mutations
-    // },
+    async fetchOrders({commit, dispatch}) {
+        var orders = await this.$auth.$storage.getLocalStorage('orders')
+        if (orders === null) // If not set on the storage
+            await this.$axios
+                .get('/api/supermarket/orders', { withCredentials: true })
+                .then(async (response) => {
+                    // Send to Mutations
+                    commit('set_all', response.data);
+                    //Save To Storage
+                    this.$auth.$storage.setLocalStorage('orders', response.data)
+                }).catch(error => {
+                    throw new Error(`${error}`);
+                })
+        else
+            commit('set_all', orders); // Send to Mutations
+    },
 
     async filterByCategory({}, category_id){
         let products = await this.dispatch('supermarket/products/getProducts')
@@ -77,7 +77,7 @@ export default {
 
         if (!category_id == 0){
             products = products.filter(x => x.category_id == category_id)
-            categories = categories.filter(x => (x.id == category_id || x.id == 0))
+            // categories = categories.filter(x => (x.id == category_id || x.id == 0))
         }
         this.commit('supermarket/products/set_all', products);
         this.commit('supermarket/categories/set_all', categories);
@@ -92,7 +92,7 @@ export default {
     async fetchLastOrder({commit}){
         if (!this.$auth.$storage.getLocalStorage('lastOrder'))
             this.$axios.get(
-                '/api/supermarket/order/last', { withCredentials: true }
+                '/api/supermarket/orders/last-order', { withCredentials: true }
             ).then((response) => {
                 commit('lastOrder', response.data)
                 this.$auth.$storage.setLocalStorage('lastOrder', response.data)
@@ -103,6 +103,12 @@ export default {
     },
 
     async endOrder({state, commit, dispatch}){
+        let calculatorService = await this.dispatch('supermarket/services/serviceState', 1)
+        if (calculatorService && state.calculator == false){
+            commit('calculator')
+            return true
+        }
+
         let products = []
         state.products.forEach(x => {
             products.push({id: x.id, count: x.inCount})
@@ -110,7 +116,7 @@ export default {
 
         this.$axios
         .post(
-            '/api/supermarket/order', { products: products }, { withCredentials: true }
+            '/api/supermarket/orders/end-order', { products: products, customer_id: null }, { withCredentials: true }
         ).then((response) => {
             // Reset added products
         }).catch(function (error) {
@@ -121,10 +127,13 @@ export default {
         lastOrder.id++
         lastOrder.order_number++
         lastOrder.order_price = 0
-        console.log(state.products)
-        state.products.forEach(x => {
+        
+        await state.products.forEach(x => {
             lastOrder.order_price += x.inCount * x.price
+            this.commit('supermarket/products/changeCount', {id: x.id, count: x.inCount*-1})
         })
+
+        await this.dispatch('supermarket/products/syncLocalStorage')
 
         commit('lastOrder', lastOrder)
         this.$auth.$storage.setLocalStorage('lastOrder', lastOrder)
@@ -134,6 +143,19 @@ export default {
         this.$toast.success('تم انهاء الطلب')
         if (this.isOffline)
             this.$toast.info('سيتم ارسال الطلب عند عودة الانترنت')
-    }
+
+        if (calculatorService)
+            commit('calculator')
+    },
+
+    selectCategory({commit}, id){
+        commit('selectCategory', id)
+    },
+
+    hideCategories({commit}){
+        commit('hideCategories')
+    },
+
+
 
 }

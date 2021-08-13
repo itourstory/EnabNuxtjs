@@ -3,9 +3,12 @@
     <div class="r-2 border-0 shadow-none">
       <div class="row">
         <div class="col-9 d-flex">
-          <h1>المنتجات</h1>
+          <h1 class="text-light">المنتجات</h1>
           <span class="mx-2">-</span>
-          <b-button @click="editState=false" class="t-1 r-1 px-4 border-0 text-dark" v-b-toggle.add-edit>
+          <b-button v-if="$nuxt.isOnline" @click="editState=false,thisProduct = {}" class="t-1 r-1 px-4 border-0 text-light" v-b-toggle.add-edit>
+            إضافة منتج
+          </b-button>
+          <b-button v-if="$nuxt.isOffline" disabled class="t-1 r-1 px-4 border-0 text-light">
             إضافة منتج
           </b-button>
         </div>
@@ -23,7 +26,8 @@
       <div class="mt-3">
         <!-- ADD / EDIT -->
         <b-collapse id="add-edit">
-          <b-card class="t-3 r-2">
+          <h3 class="text-center text-light tb-2 r-2 p-3 my-2" v-if="$nuxt.isOffline && !editState">لايوجد اتصال بالانترنت</h3>
+          <b-card class="t-3 r-2" v-else>
             <b-form class="p-4" @submit.prevent="submit">
               <h2 v-if="editState">تعديل المنتج</h2>
               <h2 v-else>إضافة منتج</h2>
@@ -99,12 +103,9 @@
         </b-collapse>
 
         <div class="table-responsive">
-          <div class="row text-center">
-            <UtilitiesLoading v-if="products_loading" />
-          </div>
           <table class="table table-cards text-right">
             <thead>
-              <tr class="text-dark">
+              <tr class="text-light">
                 <th scope="col">#</th>
                 <th scope="col">الاسم</th>
                 <th scope="col">فئة المنتج</th>
@@ -121,7 +122,8 @@
               >
                 <td scope="row">{{ i + 1 }}</td>
                 <td>{{ product.name }}</td>
-                <td>{{ categories.find(x => x.id == product.category_id).name }}</td>
+                <td>{{product.category_id}}</td>
+                <!-- <td>{{ categories.find(x => x.id == product.category_id).name }}</td> -->
                 <td>{{ product.count }}</td>
                 <td>{{ $n(product.price, 'currency') }}</td>
                 <td class="text-center">
@@ -157,10 +159,6 @@ export default {
         return this.$store.state.supermarket.products.product
     },
   },
-  created() {
-    this.fetchProducts()
-    this.products_loading = false
-  },
   data() {
     return {
       products_loading: true,
@@ -188,7 +186,6 @@ export default {
     },
 
     ...mapActions({
-      fetchProducts: 'supermarket/products/fetchProducts',
       removeProduct: 'supermarket/products/removeProduct',
     }),
     

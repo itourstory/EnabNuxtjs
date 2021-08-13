@@ -18,6 +18,7 @@
     "core-js": "^3.15.1",
     "nuxt": "^2.15.7",
     "nuxt-i18n": "^6.28.0",
+    "vue-long-click": "0.0.4",
     "vue-select": "^3.12.2",
     "vuejs-dialog": "^1.4.2"
   },

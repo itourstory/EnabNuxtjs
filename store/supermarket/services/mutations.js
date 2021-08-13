@@ -7,4 +7,8 @@ export default {
     set_all(state, services){
         state.services = services
     },
+
+    onlyOwned(state){
+        state.onlyOwned = !state.onlyOwned
+    },
 }

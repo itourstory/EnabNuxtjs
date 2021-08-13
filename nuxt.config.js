@@ -35,6 +35,7 @@ export default {
     {src: '~/plugins/custom-functions.js', mode: 'client'},
     {src: '~/plugins/vuejs-dialog', mode: 'client'},
     {src: '~/plugins/vuejs-select.js', mode: 'client'},
+    {src: '~/plugins/vue-long-click.js', mode: 'client'},
     
   ],
 

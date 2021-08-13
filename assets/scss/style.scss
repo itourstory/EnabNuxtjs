@@ -1,8 +1,16 @@
 body{
-    background-color: #4158D0;
+    // background-color: #4158D0;
+    // background: linear-gradient(45deg, #4d20d4 30%, #20d4a7 100%) !important;
+
+    
+    background: #4776E6;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #5688ff, #4776E6);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #5688ff, #4776E6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+
+
     height: 100vh;
     margin: 0.1px !important;
-    background: linear-gradient(45deg, #4d20d4 30%, #20d4a7 100%) !important;
     font-family: "Tajawal", sans-serif !important;
 	color: #8c96a7;
     direction: rtl;
@@ -67,7 +75,7 @@ label{
 }
 
 .form-control{
-    background-color: #ffffff3d;
+    background-color: #ffffff1f;
     backdrop-filter: blur(5px);
 	-webkit-backdrop-filter: blur(5px);
 	border: 0;
@@ -91,7 +99,13 @@ label{
 }
 
 .table-divider td {
-    background-color: #fcfcfc90 !important;
+    background-color: #ffffff63 !important;
+    transition: .2s;
+}
+.table-divider:hover {
+    td{
+        background-color:#ffffffbb !important;
+    }
 }
 
 span, div {

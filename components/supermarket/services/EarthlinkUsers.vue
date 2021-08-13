@@ -9,13 +9,13 @@
     import { mapMutations, mapGetters, mapActions, mapState } from 'vuex'
 
     export default {
-        props: ['id'],
+        props: ['service_id'],
         computed: {
             services(){
                 return this.$store.state.supermarket.services.services
             },
             service(){
-                return this.$store.state.supermarket.services.services.find(x => (x.id == this.id && x.state == true))
+                return this.$store.state.supermarket.services.services.find(x => (x.id == this.service_id && x.state == true))
             }
         },
         async created() {

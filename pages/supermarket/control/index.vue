@@ -27,7 +27,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-8 t-3 r-1 show-scroll">
+            <div class="col-8 t-1 r-1 show-scroll">
                 <div class="card-fluid p-5 h-items-height">
                     <div class="text-right">
                         <div v-if="open=='orders'">
@@ -53,6 +53,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   layout: 'supermarket',
   head: {
@@ -60,8 +62,14 @@ export default {
   },
   mounted() {
     return {
-
+    
     }
+  },
+  created() {
+    this.fetchOrders()
+    this.fetchProducts()
+    this.fetchCategories()
+    this.fetchServices()
   },
   data() {
     return {
@@ -69,9 +77,15 @@ export default {
     }
   },
   methods:{
-      getOpen: function(opened){
-          return this.open == opened ? 'active' : ''
-      }
+    ...mapActions({
+        fetchCategories: 'supermarket/categories/fetchCategories',
+        fetchOrders: 'supermarket/orders/fetchOrders',
+        fetchProducts: 'supermarket/products/fetchProducts',
+        fetchServices: 'supermarket/services/fetchServices',
+    }),
+    getOpen: function(opened){
+        return this.open == opened ? 'active' : ''
+    }
   }
 }
 </script>
@@ -87,6 +101,9 @@ export default {
         background-color: #ddeaff1c !important;
         border-radius: 0;
         border: 0;
+    }
+    .btn-secondary{
+        transition: .2s;
     }
     .btn-secondary:hover {
         background-color: #fcfcfc45 !important;

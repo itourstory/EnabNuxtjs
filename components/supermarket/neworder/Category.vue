@@ -1,5 +1,5 @@
 <template>
-    <div class="card py-2 r-2 border-0 tb-2 position-relative category" @click="filterByCategory(category.id)">
+    <div class="py-1 position-relative category" @click="filterByCategory(category.id), selectCategory(category.id)">
         <div class="card-body pb-2 text-center">
             <div class="row"><span class="h5 text-light mb-1">
                 {{ category.name }}
@@ -23,7 +23,11 @@
             }
         },
         methods: {
-            ...mapActions({filterByCategory: 'supermarket/orders/filterByCategory'}),
+            ...mapActions({
+                filterByCategory: 'supermarket/orders/filterByCategory',
+                selectCategory: 'supermarket/orders/selectCategory'
+            }),
+            
         }
     }
 </script>
@@ -32,4 +36,8 @@
     .category:hover{
         cursor:pointer;
     }
+    .card{
+        margin-bottom: 5px !important;
+    }
+    
 </style>

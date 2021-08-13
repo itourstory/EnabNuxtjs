@@ -8,13 +8,16 @@ export default {
         if (state.categories.find(x => x.name == category.name))
             this.$toast.error("هذه الفئة موجودة بالفعل !")
         else {
-            const newId = state.categories.at(-1).id + 1
-            category.productsCount = 0
-            await commit('add', {id: newId, ...category})
-            dispatch('syncLocalStorage')
             //########### SEND TO API ###########//.
             await this.$axios
-                .post('/api/supermarket/categories/insert', {name: category.name}, { withCredentials: true })
+                .post('/api/supermarket/categories/insert', category, { withCredentials: true })
+                .then((response) => {
+                    const newId = response.data.id
+                    category.productsCount = 0
+                    const sendCategory = {id: newId, ...category}
+                    commit('add', sendCategory)
+                    dispatch('syncLocalStorage')
+                })
                 .catch((error) => {
                     console.log(error)
                 })
@@ -26,9 +29,12 @@ export default {
     async editCategory({commit, dispatch}, category){
         await commit('edit', category)
         dispatch('syncLocalStorage')
-
         //########### SEND TO API ###########//.
-
+        await this.$axios
+            .post('/api/supermarket/categories/update', category, { withCredentials: true })
+            .catch((error) => {
+                console.log(error)
+            })
         this.$toast.success('تم التعديل')
     },
 

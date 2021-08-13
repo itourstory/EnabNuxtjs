@@ -1,5 +1,5 @@
 <template>
-    <div class="card py-2 r-2 border-0 t-3 position-relative product" @click="addProduct(product.id)">
+    <div class="py-1 mb-2 r-2 position-relative product" @click="addProduct(product.id)">
         <span class="position-absolute badge badge-light border-white text-dark count" v-if="inCount > 0">
             {{ inCount }}
         </span>
@@ -68,7 +68,14 @@
     .left{
         top: -5px; right: -5px;
     }
+    .product{
+        border: 1px solid #fff4;
+    }
     .product:hover{
         cursor:pointer;
+        background: $t-1;
+    }
+    .card{
+        margin-bottom: 5px !important;
     }
 </style>

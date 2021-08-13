@@ -1,7 +1,6 @@
 export default {
     add(state, product){
         state.products.push(product)
-        console.log(product)
     },
 
     edit(state, product){
@@ -29,5 +28,10 @@ export default {
     removeBulk(state, category_id){
         if (category_id !== 0)
             state.products = state.products.filter(x => x.category_id !== category_id)
-    }
+    },
+
+    changeCount(state, {id, count}){
+        let product = state.products.find(x => x.id == id)
+        product.count = parseInt(product.count, 10) + parseInt(count, 10)
+    },
 }

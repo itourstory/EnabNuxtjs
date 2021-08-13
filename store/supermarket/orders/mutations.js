@@ -26,4 +26,20 @@ export default {
     lastOrder(state, order){
         state.lastOrder = order
     },
+
+    set_all(state, orders){
+        state.orders = orders
+    },
+
+    calculator(state){
+        state.calculator = !state.calculator
+    },
+
+    selectCategory(state, id){
+        state.selectedCategory = id
+    },
+
+    hideCategories(state){
+        state.hideCategories = !state.hideCategories
+    },
 }
