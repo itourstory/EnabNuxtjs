@@ -41,5 +41,20 @@
 </script>
 
 <style lang="scss" scoped>
-// 
+    .count{
+        top: -5px; left: -5px;
+    }
+    .left{
+        top: -5px; right: -5px;
+    }
+    .product{
+        border: 1px solid #fff4;
+    }
+    .product:hover{
+        cursor:pointer;
+        background: $t-1;
+    }
+    .card{
+        margin-bottom: 5px !important;
+    }
 </style>
