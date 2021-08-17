@@ -15,6 +15,7 @@
             <div class="row">
                 <div class="div text-light">
                     {{categories}}
+                    {{sum}}
                 </div>
             </div>
         </div>
@@ -31,7 +32,10 @@ import { mapMutations, mapGetters, mapActions, mapState } from 'vuex'
         computed:{
             categories(){
                 return this.$store.state.supermarket.categories.categories
-            }
+            },
+            sum(){
+                console.log(this.categories,111)
+            },
         },
         created(){
             this.fetchProducts()
