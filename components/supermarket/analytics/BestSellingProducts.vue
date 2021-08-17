@@ -8,7 +8,7 @@
         </span> 
         <div class="card-body pb-2 text-center">
             <div class="row"><span class="h5 text-light mb-1">
-                name
+                {{categories}}
                 </span>
             </div>
             <div class="row">
@@ -22,9 +22,9 @@
 
 <script>
 export default {
-    mounted(){
-        this.getCategories()
-    },
+    props: [
+        'categories'
+    ],
 }
 </script>
 

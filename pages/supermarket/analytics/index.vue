@@ -2,19 +2,19 @@
     <div>
         <div class="container-fluid">
             <div class="row main-height">
-                <div class="col-lg-4">
+                <!-- <div class="col-lg-4">
                     <SupermarketAnalyticsBestSellingProducts />
                 </div>
                 <div class="col-lg-4">
                     <SupermarketAnalyticsBestSellingProducts />
-                </div>
+                </div> -->
                 <div class="col-lg-4">
-                    <SupermarketAnalyticsBestSellingProducts />
+                    <SupermarketAnalyticsBestSellingProducts :categories="categories" />
                 </div>
             </div>
             <div class="row">
-                <div class="div">
-                    {{categoriesData}}
+                <div class="div text-light">
+                    {{categories}}
                 </div>
             </div>
         </div>
@@ -22,20 +22,26 @@
 </template>
 
 <script>
+import { mapMutations, mapGetters, mapActions, mapState } from 'vuex'
     export default {
-        data() {
-            return {
-                categoriesData: '',
-            }
-        },
-        async asyncData({ $axios }) {
-            const categories = await this.$store.dispatch("getCategories");
-            console.log(categories);
-            this.categoriesData = categories;
-        },
         layout: 'supermarket',
         head: {
             title: 'Analytics',
+        },
+        computed:{
+            categories(){
+                return this.$store.state.supermarket.categories.categories
+            }
+        },
+        created(){
+            this.fetchProducts()
+            this.fetchCategories()
+        },
+        methods: {
+            ...mapActions({
+            fetchProducts: 'supermarket/products/fetchProducts',
+            fetchCategories: 'supermarket/categories/fetchCategories',
+            }),
         },
     }
 </script>
